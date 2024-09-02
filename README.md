@@ -73,10 +73,43 @@ Google Chronicle deployments typically feature consistent field names, thanks to
 SELECT host.hostname, COUNT(*) AS incident_count
 FROM events
 WHERE (event.type = "PROCESS_CREATED" OR event.type = "FILE_CREATED" OR event.type = "NETWORK_CONNECTION")
-AND (event.process.name LIKE "%YOUR_MALWARE_INDICATOR%" OR event.file.path LIKE "%YOUR_MALWARE_INDICATOR%")
+AND (event.process.name LIKE "%KeyArtifact%" OR event.file.path LIKE "%KeyArtifacts%")
 GROUP BY host.hostname
 ORDER BY incident_count DESC
    ```
+## User Activity Review
+   ```SQL
+SELECT event.type, event.process.name, event.file.path, event.network.remote_ip, COUNT(*) AS incident_count
+FROM events
+WHERE event.user.name = 'KeyArtifact'
+AND (event.type = 'PROCESS_CREATED' OR event.type = 'FILE_CREATED' OR event.type = 'NETWORK_CONNECTION')
+/* Include Custom Detection (if applicable) */
+OR (event.type = 'CUSTOM_DETECTION' AND event.custom_detection.name = 'RDP_Excessive_Connections')
+GROUP BY event.type, event.process.name, event.file.path, event.network.remote_ip
+ORDER BY incident_count DESC
+   ```
+## User MFA Checker
+   ```SQL
+SELECT *
+FROM events
+WHERE event.user.name = 'KeyArtifact'
+AND (
+  (event.message LIKE '%MFA% AND %fail%') 
+  OR
+  (event.message LIKE '%MFA% AND %Success%') 
+)
+   ```
+
+## User Authentication Review
+   ```SQL
+SELECT *
+FROM events
+WHERE event.user.name = 'KeyArtifact'
+AND (event.message LIKE '%login success%' OR event.message LIKE '%login fail%')
+   ```
+
+
+
 ## Field Name References
 ---
 ### Event Metadata
