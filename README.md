@@ -45,7 +45,7 @@ AND event.timestamp BETWEEN '2024-08-25' AND '2024-09-02'
 - **Joining Tables**: Combine data across multiple tables using joins.
 
 # Google Chronicle Queries
-Google Chronicle deployments typically feature consistent field names, thanks to Chronicle's standardized, cloud-based security analytics platform. While minor variations may exist depending on specific integrations or customer configurations, the core fields used for common events—such as process creation, file creation, and network connections—remain largely uniform.
+Google Chronicle deployments typically feature consistent field names, thanks to Chronicle's standardized, cloud-based security analytics platform. While minor variations may exist depending on specific integrations or customer configurations, the core fields used for common events—such as process creation, file creation, and network connections—remain largely uniform. (Event is a placeholder, not every environment will contain events).
 
 ### Common Key Fields in Chronicle:
 - **`event.type`**: Represents the event type (e.g., `PROCESS_CREATED`, `FILE_CREATED`, `NETWORK_CONNECTION`).
